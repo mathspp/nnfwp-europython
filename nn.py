@@ -71,14 +71,29 @@ class Layer:
 class Network:
     """Class representing a sequence of compatible layers."""
 
-    def __init__(self, layers):
+    def __init__(self, layers, loss_func):
         self._layers = layers
+        self._loss_func = loss_func
 
     def forward_pass(self, x):
         out = x
         for layer in self._layers:
             out = layer.forward_pass(out)
         return out
+
+    def train(self, x, target):
+        """Train the network on the input x and target value target."""
+
+        # Accumulate all the intermediate outputs
+        xs = [x]
+        for layer in self._layers:
+            xs.append(layer.forward_pass(xs[-1]))
+
+        dx = self._loss_func.dloss(xs.pop(), target)
+        for layer, x in zip(self._layers[::-1], xs[::-1]):
+            db = dx * layer._act_func.df(np.dot(layer._W, x) + layer._b)
+            dx = np.dot(layer._W.T, db)
+            dW = np.dot(db, x.T)
 
 
 if __name__ == "__main__":
