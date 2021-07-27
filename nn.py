@@ -17,9 +17,9 @@ def create_bias_vector(length):
 class Layer:
     """Class representing the connections between two layers of neurons."""
 
-    def __init__(self, W, b):
-        self._W = W
-        self._b = b
+    def __init__(self, inps, outs):
+        self._W = create_weights_matrix(outs, inps)
+        self._b = create_bias_vector(outs)
 
     def forward_pass(self, x):
         return np.dot(self._W, x) + self._b
