@@ -18,8 +18,16 @@ def leaky_relu(x, alpha=0.1):
     return np.maximum(x, alpha*x)
 
 
+def dleaky_relu(x, alpha=0.1):
+    return np.maximum(alpha, x > 0)
+
+
 def mean_squared_error(outs, targets):
     return np.mean(np.power(outs - targets, 2))
+
+
+def dmean_square_error(outs, targets):
+    return 2*(outs - targets)/outs.size
 
 
 class Layer:
