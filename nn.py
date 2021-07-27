@@ -14,6 +14,10 @@ def create_bias_vector(length):
     return create_weights_matrix(length, 1)
 
 
+def leaky_relu(x, alpha=0.1):
+    return np.maximum(x, alpha*x)
+
+
 class Layer:
     """Class representing the connections between two layers of neurons."""
 
@@ -37,6 +41,21 @@ class Network:
             out = layer.forward_pass(out)
         return out
 
+
 if __name__ == "__main__":
-    l = Layer(3, 7)
-    print(l.forward_pass(np.array([1, 2, 3]).reshape((3, 1))))
+    layers = [
+        Layer(3, 7),
+        Layer(7, 6),
+        Layer(6, 6),
+        Layer(6, 6),
+        Layer(6, 6),
+        Layer(6, 2),
+    ]
+    layers = [
+        Layer(3, 2),
+    ]
+
+    net = Network(layers)
+    print(
+        net.forward_pass(np.array([1, 2, 3]).reshape((3, 1)))
+    )
