@@ -23,3 +23,20 @@ class Layer:
 
     def forward_pass(self, x):
         return np.dot(self._W, x) + self._b
+
+
+class Network:
+    """Class representing a sequence of compatible layers."""
+
+    def __init__(self, layers):
+        self._layers = layers
+
+    def forward_pass(self, x):
+        out = x
+        for layer in self._layers:
+            out = layer.forward_pass(out)
+        return out
+
+if __name__ == "__main__":
+    l = Layer(3, 7)
+    print(l.forward_pass(np.array([1, 2, 3]).reshape((3, 1))))
