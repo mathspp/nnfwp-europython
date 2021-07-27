@@ -36,12 +36,22 @@ class LeakyReLU(ActivationFunction):
         return np.maximum(self._alpha, x > 0)
 
 
-def mean_squared_error(outs, targets):
-    return np.mean(np.power(outs - targets, 2))
+class LossFunction:
+    @abstractmethod
+    def loss(self, outs, targets):
+        pass
+
+    @abstractmethod
+    def dloss(self, outs, targets):
+        pass
 
 
-def dmean_square_error(outs, targets):
-    return 2*(outs - targets)/outs.size
+class MSE(LossFunction):
+    def loss(self, outs, targets):
+        return np.mean(np.power(outs - targets, 2))
+
+    def dloss(self, outs, targets):
+        return 2*(outs - targets)/outs.size
 
 
 class Layer:
