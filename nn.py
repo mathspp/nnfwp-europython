@@ -18,6 +18,10 @@ def leaky_relu(x, alpha=0.1):
     return np.maximum(x, alpha*x)
 
 
+def mean_squared_error(outs, targets):
+    return np.mean(np.power(outs - targets, 2))
+
+
 class Layer:
     """Class representing the connections between two layers of neurons."""
 
