@@ -60,10 +60,10 @@ class Layer:
     def __init__(self, inps, outs, act_func):
         self._W = create_weights_matrix(outs, inps)
         self._b = create_bias_vector(outs)
-        self._f = act_func
+        self._act_func = act_func
 
     def forward_pass(self, x):
-        return self._f(
+        return self._act_func.f(
             np.dot(self._W, x) + self._b
         )
 
@@ -83,9 +83,9 @@ class Network:
 
 if __name__ == "__main__":
     layers = [
-        Layer(3, 7, leaky_relu),
-        Layer(7, 6, leaky_relu),
-        Layer(6, 2, leaky_relu),
+        Layer(3, 7, LeakyReLU(0.1)),
+        Layer(7, 6, LeakyReLU(0.1)),
+        Layer(6, 2, LeakyReLU(0.1)),
     ]
 
     net = Network(layers)
