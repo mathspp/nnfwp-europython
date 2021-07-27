@@ -71,8 +71,9 @@ class Layer:
 class Network:
     """Class representing a sequence of compatible layers."""
 
-    def __init__(self, layers, loss_func):
+    def __init__(self, layers, lr, loss_func):
         self._layers = layers
+        self._lr = lr
         self._loss_func = loss_func
 
     def forward_pass(self, x):
@@ -94,6 +95,8 @@ class Network:
             db = dx * layer._act_func.df(np.dot(layer._W, x) + layer._b)
             dx = np.dot(layer._W.T, db)
             dW = np.dot(db, x.T)
+            layer._W -= self._lr * dW
+            layer._b -= self._lr * db
 
 
 if __name__ == "__main__":
