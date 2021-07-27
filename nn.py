@@ -82,6 +82,9 @@ class Network:
             out = layer.forward_pass(out)
         return out
 
+    def loss(self, x, target):
+        return self._loss_func.loss(self.forward_pass(x), target)
+
     def train(self, x, target):
         """Train the network on the input x and target value target."""
 
@@ -103,10 +106,26 @@ if __name__ == "__main__":
     layers = [
         Layer(3, 7, LeakyReLU(0.1)),
         Layer(7, 6, LeakyReLU(0.1)),
-        Layer(6, 2, LeakyReLU(0.1)),
+        Layer(6, 1, LeakyReLU(0.1)),
     ]
+    net = Network(layers, 0.001, MSE())
 
-    net = Network(layers)
-    print(
-        net.forward_pass(np.array([1, 2, 3]).reshape((3, 1)))
-    )
+    t = np.array([[0]])
+
+    inps = [
+        create_bias_vector(3) for _ in range(1_000)
+    ]
+    # Test the network before training it
+    loss = 0
+    for inp in inps:
+        loss += net.loss(inp, t)
+    print(loss)
+
+    for _ in range(10_000):
+        x = create_bias_vector(3)
+        net.train(x, t)
+
+    loss = 0
+    for inp in inps:
+        loss += net.loss(inp, t)
+    print(loss)
