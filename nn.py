@@ -21,12 +21,15 @@ def leaky_relu(x, alpha=0.1):
 class Layer:
     """Class representing the connections between two layers of neurons."""
 
-    def __init__(self, inps, outs):
+    def __init__(self, inps, outs, act_func):
         self._W = create_weights_matrix(outs, inps)
         self._b = create_bias_vector(outs)
+        self._f = act_func
 
     def forward_pass(self, x):
-        return np.dot(self._W, x) + self._b
+        return self._f(
+            np.dot(self._W, x) + self._b
+        )
 
 
 class Network:
@@ -44,15 +47,9 @@ class Network:
 
 if __name__ == "__main__":
     layers = [
-        Layer(3, 7),
-        Layer(7, 6),
-        Layer(6, 6),
-        Layer(6, 6),
-        Layer(6, 6),
-        Layer(6, 2),
-    ]
-    layers = [
-        Layer(3, 2),
+        Layer(3, 7, leaky_relu),
+        Layer(7, 6, leaky_relu),
+        Layer(6, 2, leaky_relu),
     ]
 
     net = Network(layers)
