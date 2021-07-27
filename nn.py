@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import numpy as np
 
 
@@ -14,12 +15,25 @@ def create_bias_vector(length):
     return create_weights_matrix(length, 1)
 
 
-def leaky_relu(x, alpha=0.1):
-    return np.maximum(x, alpha*x)
+class ActivationFunction:
+    @abstractmethod
+    def f(self, x):
+        pass
+
+    @abstractmethod
+    def df(self, x):
+        pass
 
 
-def dleaky_relu(x, alpha=0.1):
-    return np.maximum(alpha, x > 0)
+class LeakyReLU(ActivationFunction):
+    def __init__(self, alpha):
+        self._alpha = alpha
+
+    def f(self, x):
+        return np.maximum(x, self._alpha*x)
+
+    def df(self, x):
+        return np.maximum(self._alpha, x > 0)
 
 
 def mean_squared_error(outs, targets):
