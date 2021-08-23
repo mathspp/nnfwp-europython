@@ -9,4 +9,4 @@ You can also [follow me on Twitter @mathsppblog](https://twitter.com/mathsppblog
 If you attended this workshop, I would sincerely love to hear from you.
 Feel free to reach out to me [on Twitter @mathsppblog](https://twitter.com/mathsppblog) or by writing to me: rodrigo at mathspp dot com.
 
-**This repository will be deleted in early August.**
+**This repository has been archived and is now read-only.**
